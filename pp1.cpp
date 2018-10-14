@@ -52,13 +52,13 @@ private:
 	int n;
 	int m;
 	float** matriz;
-
+	float peso = 0.0;
 	int tempo;
 	int* cor;
     int* tempoEntrada;
     int* tempoSaida;
     int* predecessor;
-    float DFS_Visita(int);
+    void DFS_Visita(int);
 public:
 	Grafo(int);
 	void inicializar(int);
@@ -380,6 +380,7 @@ void Grafo::insereAresta(int u, int v) {
 void Grafo::insereArestaPeso(int u, int v, float peso){
     matriz[u][v] = peso;
     matriz[v][u] = peso;
+	insereAresta(u, v);
     m++;
 }
 
@@ -392,7 +393,6 @@ void Grafo::imprimeGrafo() {
 
 //template<typename T>
 void Grafo::DFS() {
-    
     for(int i = 0; i < n + 1; i++){
         cor[i] = BRANCO;
         predecessor[i] = -1; 
@@ -404,24 +404,20 @@ void Grafo::DFS() {
     		DFS_Visita(u);
     	}
     }
-    //cout<< "peso: " << peso << endl;
+    cout<< "peso: " << peso << endl;
     //return peso;
 }
 
-float Grafo::DFS_Visita(int u) {
+void Grafo::DFS_Visita(int u) {
 	tempo++;
 	tempoEntrada[u] = tempo;
 	cor[u] = CINZA;
 
-	float peso = 0;
 	No* p = adj[u].getPrim()->getProx();
 	//cout << p->getItem() << endl;
-    cout << matriz[u][p->getItem()] << endl;
     while(p != NULL){
-
     	if(cor[p->getItem()] == BRANCO){
-    		//peso = peso + matriz[u][p->getItem()];
-    		
+    		peso += matriz[u][p->getItem()];
     		predecessor[p->getItem()] = u;
     		DFS_Visita(p->getItem());
     	}
@@ -430,7 +426,7 @@ float Grafo::DFS_Visita(int u) {
 
     cor[u] = PRETO;
     tempo++;
-    //cout << "tempo = " << tempo << endl;
+    cout << "tempo = " << tempo << endl;
     tempoSaida[u] = tempo;
 	
 	/*for(int i = 1;i <= n; i++){
@@ -443,7 +439,6 @@ float Grafo::DFS_Visita(int u) {
     cout << endl;*/
     //cout << "peso: " << peso << endl;
 
-    return peso;
 }
 
 //template<typename T>
