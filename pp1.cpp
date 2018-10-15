@@ -6,37 +6,40 @@
 
 using namespace std;
 
+template <class T>
 // CLASSES
 class No {
 private:
 	int item;
-	No* prox;
+	No<T>* prox;
 public:
 	No() {prox = NULL;}
 	No(int);
 	int getItem();
 	void setItem(int);
-	No* getProx();
+	No<T>* getProx();
 	void setProx(No*);
 };
 
+template <class T>
 class Lista {
 private:
-	No* prim;
-	No* ult;
+	No<T>* prim;
+	No<T>* ult;
 public:
 	Lista();
 	~Lista(){}
-	No* getPrim();
+	No<T>* getPrim();
 	void insere(int);
-	No* buscar(int);
+	No<T>* buscar(int);
 	void imprimirLista();
 };
 
+template <class T>
 class Fila {
 private:
-	No* frente;
-	No* atras;
+	No<T>* frente;
+	No<T>* atras;
 public:
 	Fila();
 	int getFrente();
@@ -46,9 +49,10 @@ public:
 	void imprimeFila();
 };
 
+template <class T>
 class Grafo {
 private:
-	Lista* adj;
+	Lista<T>* adj;
 	int n;
 	int m;
 	
@@ -93,7 +97,7 @@ int main() {
     ordem = stoi(n);
     tamanho = stoi(m);
 
-    Grafo* grafo = new Grafo(ordem);
+    Grafo<int>* grafo = new Grafo<int>(ordem);
 
     for(int i = 0; i < tamanho; i++){
     	
@@ -172,48 +176,57 @@ int main() {
 	return 0;
 }
 
+template <class T>
 // METODOS DO NO
-No::No(int item) {
+No<T>::No(int item) {
 	this->item = item;
 	this->prox = NULL;
 }
 
-int No::getItem() {
+template <class T>
+int No<T>::getItem() {
 	return item;
 }
 
-void No::setItem(int item) {
+template <class T>
+void No<T>::setItem(int item) {
 	this->item = item;
 }
 
-No* No::getProx() {
+template <class T>
+No<T>* No<T>::getProx() {
 	return prox;
 }
 
-void No::setProx(No* prox) {
+template <class T>
+void No<T>::setProx(No* prox) {
 	this->prox = prox;
 }
 
+template <class T>
 //METODOS DA LISTA
-Lista::Lista() {
-	prim = new No();
+Lista<T>::Lista() {
+	prim = new No<T>();
     prim->setProx(NULL);
     ult = prim;
 }
 
-No* Lista::getPrim() {
+template <class T>
+No<T>* Lista<T>::getPrim() {
 	return this->prim;
 }
 
-void Lista::insere(int item){
-   ult->setProx(new No);
+template <class T>
+void Lista<T>::insere(int item){
+   ult->setProx(new No<T>);
    ult = ult->getProx();
    ult->setProx(NULL);
    ult->setItem(item);
 }
 
-No* Lista::buscar(int item) {
-	No* p = prim->getProx();
+template <class T>
+No<T>* Lista<T>::buscar(int item) {
+	No<T>* p = prim->getProx();
 	while (p != NULL && p->getItem() != item) {
 		p = p->getProx();
 	}
@@ -227,8 +240,9 @@ No* Lista::buscar(int item) {
 	}
 }
 
-void Lista::imprimirLista() {
-    No* p = prim->getProx();
+template <class T>
+void Lista<T>::imprimirLista() {
+    No<T>* p = prim->getProx();
     while(p != NULL){
         cout << p->getItem() << " ";
         p = p->getProx();
@@ -236,44 +250,43 @@ void Lista::imprimirLista() {
     cout << endl;
 }
 
+template <class T>
 // METODOS DA FILA
-//template<typename T>
-Fila::Fila() {
-    frente = new No();
+Fila<T>::Fila() {
+    frente = new No<T>();
     frente->setProx(NULL);
     atras = frente;
 }
 
-//template<typename T>
-bool Fila::vazia() { 
+template <class T>
+bool Fila<T>::vazia() { 
 	return atras == frente; 
 }
 
-//template<typename T>
-int Fila::getFrente() { 
+template <class T>
+
+int Fila<T>::getFrente() { 
 	return frente->getProx()->getItem();
 }
-
-//template<typename T>
-void Fila::enfileira(int item) {
-    atras->setProx(new No());
+template <class T>
+void Fila<T>::enfileira(int item) {
+    atras->setProx(new No<T>());
     atras = atras->getProx();
     atras->setItem(item);
     atras->setProx(NULL);
 }
-
-//template<typename T>
-void Fila::desenfileira(int item) {
+template <class T>
+void Fila<T>::desenfileira(int item) {
     //cout << "frente = " << frente->getItem() << endl;
-    No* aux = new No();
+    No<T>* aux = new No<T>();
     aux = frente;
     frente = frente->getProx();
     item = frente->getItem();
     delete aux;
 }
 
-//template<typename T>
-void Fila::imprimeFila() {
+template <class T>
+void Fila<T>::imprimeFila() {
     frente = frente->getProx();
     while(frente != NULL){
         cout << frente->getItem() << endl;
@@ -282,9 +295,10 @@ void Fila::imprimeFila() {
 }
 
 //METODOS DO GRAFO
-Grafo::Grafo(int n) {
+template <class T>
+Grafo<T>::Grafo(int n) {
 	this->n = n;
-	adj = new Lista[n + 1];
+	adj = new Lista<T>[n + 1];
 	cor = new int[n + 1];
     tempoEntrada = new int[n + 1];
     tempoSaida = new int[n + 1];
@@ -294,7 +308,8 @@ Grafo::Grafo(int n) {
 	inicializar(n);
 }
 
-void Grafo::inicializar(int n) {
+template <class T>
+void Grafo<T>::inicializar(int n) {
 	for(int i = 1;i <= n; i++){
         for(int j = 1; j <= n; j++){
             matriz[i][j] = 0;
@@ -302,28 +317,30 @@ void Grafo::inicializar(int n) {
     }
 }
 
-void Grafo::insereAresta(int u, int v) {
+template <class T>
+void Grafo<T>::insereAresta(int u, int v) {
 	adj[u].insere(v);
 	adj[v].insere(u);
 	m++;
 }
-
-void Grafo::insereArestaPeso(int u, int v, float peso){
+template <class T>
+void Grafo<T>::insereArestaPeso(int u, int v, float peso){
     matriz[u][v] = peso;
     matriz[v][u] = peso;
 	insereAresta(u, v);
     m++;
 }
 
-void Grafo::imprimeGrafo() {
+template <class T>
+void Grafo<T>::imprimeGrafo() {
 	for(int i = 1; i <= n; i++) {
 		cout << "v[" << i << "] = ";
 		adj[i].imprimirLista();
 	}
 }
 
-//template<typename T>
-void Grafo::DFS() {
+template <class T>
+void Grafo<T>::DFS() {
     
     for(int i = 0; i < n + 1; i++){
         cor[i] = BRANCO;
@@ -340,12 +357,13 @@ void Grafo::DFS() {
     //return peso;
 }
 
-void Grafo::DFS_Visita(int u) {
+template <class T>
+void Grafo<T>::DFS_Visita(int u) {
 	tempo++;
 	tempoEntrada[u] = tempo;
 	cor[u] = CINZA;
 
-	No* p = adj[u].getPrim()->getProx();
+	No<T>* p = adj[u].getPrim()->getProx();
 	while(p != NULL){
     	if(cor[p->getItem()] == BRANCO){
     		peso += matriz[u][p->getItem()];
@@ -361,8 +379,8 @@ void Grafo::DFS_Visita(int u) {
     tempoSaida[u] = tempo;
 }
 
-//template<typename T>
-int Grafo::BFS (int inicioVertice, int fimVertice, int qtd, int enemies[]){
+template <class T>
+int Grafo<T>::BFS (int inicioVertice, int fimVertice, int qtd, int enemies[]){
     int vertice = inicioVertice; 
     bool found = false;
     int* cor = new int[n + 1];
@@ -384,7 +402,7 @@ int Grafo::BFS (int inicioVertice, int fimVertice, int qtd, int enemies[]){
     distancia[vertice] = -1;
     predecessor[vertice] = -1;
 
-    Fila fila;
+    Fila<T> fila;
     fila.enfileira(vertice);
     
     int i = 0;
@@ -392,7 +410,7 @@ int Grafo::BFS (int inicioVertice, int fimVertice, int qtd, int enemies[]){
     	
         vertice = fila.getFrente();
         fila.desenfileira(vertice);
-        No* posicao = adj[vertice].getPrim()->getProx();
+        No<T>* posicao = adj[vertice].getPrim()->getProx();
 
         while(posicao != NULL){
             if(cor[posicao->getItem()] == BRANCO){
