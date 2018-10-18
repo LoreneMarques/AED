@@ -135,7 +135,6 @@ int main() {
 	}
 	
 	quant = stoi(qtd);
-	//cout << "quant: " << quant << endl;
 
 	int* inimigos = new int[quant];
 	    
@@ -150,12 +149,10 @@ int main() {
 	    inimigo = stoi(ini);
 	    inimigos[j] = inimigo;
 	    ini.clear();
-	    //cout << "inimigos["<< j <<"]: " << inimigos[j] << endl;
 	}
 	
 	getline (cin, entrada);
-	cout << "------------------------------------------" << endl;
-
+	
 	for(int i = 0; i < entrada.length(); i++){
         if(entrada[i] == ' ') {
         	espaco = i;
@@ -172,30 +169,12 @@ int main() {
     verticeFinal = stoi(veFinal);
 
 	caminho = grafo->BFS(verticeInicial,verticeFinal, quant, inimigos);
-	cout << endl;
-	cout << "caminho: ";
-	caminho.imprimirLista();
 	
-/*	No* qualquer;
-	qualquer = caminho.getPrim()->getProx();
-	while(qualquer != NULL){
-	   	cout << "qualquer: " << qualquer->getItem() << endl;
-	    qualquer = qualquer->getProx();
-    }
-	//cout << "qualquer: " << qualquer->getItem() << endl;
-
-
-	//ordem = 3;
-	//tamanho = 3;
-*/
 	float pesos[ordem];
-
-	//cout << "ordem externa: " << ordem << endl;
 
 	for(int i = 0; i < ordem; i++){
     	
 		getline	(cin, entrada);
-		cout << "entrada: " << entrada << endl;
 
 		for(int i = 0; i < entrada.length(); i++){
 	        if(entrada[i] == ' ') {
@@ -211,16 +190,12 @@ int main() {
 
 	    ordemVertice = stoi(n);
 	    tamanhoVertice = stoi(m);
-	    cout << endl;
-	    cout << "ordem interna: " << ordemVertice << endl;
-	    cout << "tamanho interno: " << tamanhoVertice << endl;
 	    n.clear();
 	    m.clear();
 
 	    Grafo* grafo = new Grafo(ordemVertice);
 
 	    for(int i = 1; i <= tamanhoVertice; i++){
-	    	cout << "tamanhoVertice: " << tamanhoVertice << endl;
 	    	getline	(cin, entrada);
 	    	
 			for(int i = 0; i < entrada.length(); i++){
@@ -246,9 +221,6 @@ int main() {
 		    v1 = stoi(num1);
 		    v2 = stoi(num2);
 		    peso = stoi(ps);
-		    cout << "v1: " << v1 << endl;
-		    cout << "v2: " << v2 << endl;
-		    cout << "peso: " << peso << endl;
 		    num1.clear();
 		    num2.clear();
 		    ps.clear();
@@ -257,29 +229,26 @@ int main() {
 	    	
     	}
     	pesos[i+1] = grafo->DFS();
-    	cout << "pesos[" << i+1 << "]: " << pesos[i+1] << endl;
     }
 
-    No* qualquer;
+    No* compare;
     pesoTotal = 0.0;
 
     for(int i = 1; i <= ordem; i++){
-    	qualquer = caminho.getPrim()->getProx();
-    	while(qualquer != NULL){
-	    	if(i == qualquer->getItem()) {
+    	compare = caminho.getPrim()->getProx();
+    	while(compare != NULL){
+	    	if(i == compare->getItem()) {
 	    		pesoTotal = pesoTotal + pesos[i];
-	    		qualquer = qualquer->getProx();
+	    		compare = compare->getProx();
 	    	}
 	    	else{
-	    		qualquer = qualquer->getProx();
+	    		compare = compare->getProx();
 	    	}
     	}
     }
-	
-    cout << "pesoTotal: " << pesoTotal << endl;
-	
-	//grafo->DFS();
-    //grafo->BFS(2,8);*/
+	cout << fixed;
+	cout.precision(1);
+    cout << pesoTotal << endl;
 	return 0;
 }
 
@@ -447,7 +416,6 @@ float Grafo::DFS() {
     		DFS_Visita(u);
     	}
     }
-    cout<< "peso: " << peso << endl;
     return peso;
 }
 
