@@ -7,21 +7,21 @@
 using namespace std;
 
 // CLASSES
-template <class T>
+template <typename T>
 class No {
 private:
-    int item;
+    T item;
     No<T>* prox;
 public:
     No() {prox = NULL;}
-    No(int);
+    No(T);
     int getItem();
-    void setItem(int);
+    void setItem(T);
     No<T>* getProx();
-    void setProx(No*);
+    void setProx(No<T>*);
 };
 
-template <class T>
+template <typename T>
 class Lista {
 private:
     No<T>* prim;
@@ -30,12 +30,12 @@ public:
     Lista();
     ~Lista(){}
     No<T>* getPrim();
-    void insere(int);
-    No<T>* buscar(int);
+    void insere(T);
+    No<T>* buscar(T);
     void imprimirLista();
 };
 
-template <class T>
+template <typename T>
 class Fila {
 private:
     No<T>* frente;
@@ -44,12 +44,12 @@ public:
     Fila();
     int getFrente();
     bool vazia();
-    void enfileira(int);
-    void desenfileira(int);
+    void enfileira(T);
+    void desenfileira(T);
     void imprimeFila();
 };
 
-template <class T>
+template <typename T>
 class Grafo {
 private:
     Lista<T>* adj;
@@ -63,15 +63,15 @@ private:
     int* tempoEntrada;
     int* tempoSaida;
     int* predecessor;
-    void DFS_Visita(int);
+    void DFS_Visita(T);
 public:
-    Grafo(int);
-    void inicializar(int);
-    void insereAresta(int, int);
-    void insereArestaPeso(int, int, float);
+    Grafo(T);
+    void inicializar(T);
+    void insereAresta(T, T);
+    void insereArestaPeso(T, T, T);
     void imprimeGrafo();
     float DFS();
-    Lista<T> BFS(int, int, int, int[]);
+    Lista<T> BFS(T, T, T, T[]);
 };
 
 // INICIO DA MAIN
@@ -257,55 +257,55 @@ int main() {
 }
 
 // METODOS DO NO
-template <class T>
-No<T>::No(int item) {
+template <typename T>
+No<T>::No(T item) {
     this->item = item;
     this->prox = NULL;
 }
 
-template <class T>
+template <typename T>
 int No<T>::getItem() {
     return item;
 }
 
-template <class T>
-void No<T>::setItem(int item) {
+template <typename T>
+void No<T>::setItem(T item) {
     this->item = item;
 }
 
-template <class T>
+template <typename T>
 No<T>* No<T>::getProx() {
     return prox;
 }
 
-template <class T>
+template <typename T>
 void No<T>::setProx(No<T>* prox) {
     this->prox = prox;
 }
 
 //METODOS DA LISTA
-template <class T>
+template <typename T>
 Lista<T>::Lista() {
     prim = new No<T>();
     prim->setProx(NULL);
     ult = prim;
 }
 
-template <class T>
+template <typename T>
 No<T>* Lista<T>::getPrim() {
     return this->prim;
 }
 
-template <class T>
-void Lista<T>::insere(int item){
+template <typename T>
+void Lista<T>::insere(T item){
     ult->setProx(new No<T>);
     ult = ult->getProx();
     ult->setProx(NULL);
     ult->setItem(item);
 }
 
-template <class T>
-No<T>* Lista<T>::buscar(int item) {
+template <typename T>
+No<T>* Lista<T>::buscar(T item) {
     No<T>* p = prim->getProx();
     while (p != NULL && p->getItem() != item) {
         p = p->getProx();
@@ -320,7 +320,7 @@ No<T>* Lista<T>::buscar(int item) {
     }
 }
 
-template <class T>
+template <typename T>
 void Lista<T>::imprimirLista() {
     No<T>* p = prim->getProx();
     while(p != NULL){
@@ -331,33 +331,33 @@ void Lista<T>::imprimirLista() {
 }
 
 // METODOS DA FILA
-template <class T>
+template <typename T>
 Fila<T>::Fila() {
     frente = new No<T>();
     frente->setProx(NULL);
     atras = frente;
 }
 
-template <class T>
+template <typename T>
 bool Fila<T>::vazia() {
     return atras == frente;
 }
 
-template <class T>
+template <typename T>
 int Fila<T>::getFrente() {
     return frente->getProx()->getItem();
 }
 
-template <class T>
-void Fila<T>::enfileira(int item) {
+template <typename T>
+void Fila<T>::enfileira(T item) {
     atras->setProx(new No<T>());
     atras = atras->getProx();
     atras->setItem(item);
     atras->setProx(NULL);
 }
 
-template <class T>
-void Fila<T>::desenfileira(int item) {
+template <typename T>
+void Fila<T>::desenfileira(T item) {
     //cout << "frente = " << frente->getItem() << endl;
     No<T>* aux = new No<T>();
     aux = frente;
@@ -366,7 +366,7 @@ void Fila<T>::desenfileira(int item) {
     delete aux;
 }
 
-template <class T>
+template <typename T>
 void Fila<T>::imprimeFila() {
     frente = frente->getProx();
     while(frente != NULL){
@@ -376,8 +376,8 @@ void Fila<T>::imprimeFila() {
 }
 
 //METODOS DO GRAFO
-template <class T>
-Grafo<T>::Grafo(int n) {
+template <typename T>
+Grafo<T>::Grafo(T n) {
     this->n = n;
     adj = new Lista<T>[n + 1];
     cor = new int[n + 1];
@@ -389,8 +389,8 @@ Grafo<T>::Grafo(int n) {
     inicializar(n);
 }
 
-template <class T>
-void Grafo<T>::inicializar(int n) {
+template <typename T>
+void Grafo<T>::inicializar(T n) {
     for(int i = 1;i <= n; i++){
         for(int j = 1; j <= n; j++){
             matriz[i][j] = 0;
@@ -398,22 +398,22 @@ void Grafo<T>::inicializar(int n) {
     }
 }
 
-template <class T>
-void Grafo<T>::insereAresta(int u, int v) {
+template <typename T>
+void Grafo<T>::insereAresta(T u, T v) {
     adj[u].insere(v);
     adj[v].insere(u);
     m++;
 }
 
-template <class T>
-void Grafo<T>::insereArestaPeso(int u, int v, float peso){
+template <typename T>
+void Grafo<T>::insereArestaPeso(T u, T v, T peso){
     matriz[u][v] = peso;
     matriz[v][u] = peso;
     insereAresta(u, v);
     m++;
 }
 
-template <class T>
+template <typename T>
 void Grafo<T>::imprimeGrafo() {
     for(int i = 1; i <= n; i++) {
         cout << "v[" << i << "] = ";
@@ -421,7 +421,7 @@ void Grafo<T>::imprimeGrafo() {
     }
 }
 
-template <class T>
+template <typename T>
 float Grafo<T>::DFS() {
 
     for(int i = 0; i < n + 1; i++){
@@ -438,8 +438,8 @@ float Grafo<T>::DFS() {
     return peso;
 }
 
-template <class T>
-void Grafo<T>::DFS_Visita(int u) {
+template <typename T>
+void Grafo<T>::DFS_Visita(T u) {
     tempo++;
     tempoEntrada[u] = tempo;
     cor[u] = CINZA;
@@ -460,8 +460,8 @@ void Grafo<T>::DFS_Visita(int u) {
     tempoSaida[u] = tempo;
 }
 
-template <class T>
-Lista<T> Grafo<T>::BFS (int inicioVertice, int fimVertice, int qtd, int enemies[]){
+template <typename T>
+Lista<T> Grafo<T>::BFS (T inicioVertice, T fimVertice, T qtd, T enemies[]){
     int vertice = inicioVertice;
     bool found = false;
     int* cor = new int[n + 1];
