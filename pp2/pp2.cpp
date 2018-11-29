@@ -1,8 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <limits>
 #include <iomanip>
-#include <algorithm>
 
 using namespace std;
 
@@ -285,7 +283,7 @@ void Dijkstra<T>::inicializador(Grafo<T> &grafo,T origem){
     vetorPredecessor = new T[ordem+1];
 
     for(int i = 1; i <= ordem;i++){
-        vetorDistancia[i] = numeric_limits<float>::max();
+        vetorDistancia[i] = 10000;
         vetorPredecessor[i] = -1;
     }
     vetorDistancia[origem] = 0;
